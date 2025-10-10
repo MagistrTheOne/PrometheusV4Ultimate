@@ -1,0 +1,31 @@
+name: ocr_stub
+version: "1.0.0"
+description: "Stub OCR implementation for text extraction from images"
+author: "PrometheusULTIMATE"
+license: "MIT"
+tags: ["ocr", "text", "image", "extraction", "stub"]
+
+inputs:
+  input_file: "Path to image file for OCR processing"
+  output_file: "Path to save extracted text"
+  language: "Language for OCR: en, ru, auto (default: auto)"
+  confidence_threshold: "Minimum confidence for text detection (default: 0.5)"
+
+outputs:
+  output_file: "Path to the text output file"
+  text_length: "Length of extracted text"
+  confidence_score: "Average confidence score"
+  processing_time: "Time taken for OCR processing"
+  image_format: "Format of input image"
+
+permissions:
+  fs_read: true
+  fs_write: true
+  network: false
+  env_var: false
+
+limits:
+  cpu_ms: 10000
+  ram_mb: 200
+  time_s: 60
+  disk_mb: 100

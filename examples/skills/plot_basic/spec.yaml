@@ -1,0 +1,35 @@
+name: plot_basic
+version: "1.0.0"
+description: "Create basic plots and charts from data"
+author: "PrometheusULTIMATE"
+license: "MIT"
+tags: ["plot", "chart", "visualization", "data", "graph"]
+
+inputs:
+  data_file: "Path to CSV file with data to plot"
+  output_file: "Path for output plot image"
+  plot_type: "Type of plot: line, bar, scatter, histogram (default: line)"
+  x_column: "Name of X-axis column"
+  y_column: "Name of Y-axis column"
+  title: "Plot title (optional)"
+  width: "Plot width in pixels (default: 800)"
+  height: "Plot height in pixels (default: 600)"
+
+outputs:
+  output_file: "Path to the created plot image"
+  plot_type: "Type of plot created"
+  data_points: "Number of data points plotted"
+  image_size: "Size of output image in bytes"
+  dimensions: "Plot dimensions (width x height)"
+
+permissions:
+  fs_read: true
+  fs_write: true
+  network: false
+  env_var: false
+
+limits:
+  cpu_ms: 8000
+  ram_mb: 150
+  time_s: 30
+  disk_mb: 50

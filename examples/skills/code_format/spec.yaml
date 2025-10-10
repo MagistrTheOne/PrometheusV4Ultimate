@@ -1,0 +1,31 @@
+name: code_format
+version: "1.0.0"
+description: "Format and lint Python code using black and ruff"
+author: "PrometheusULTIMATE"
+license: "MIT"
+tags: ["python", "format", "lint", "black", "ruff", "code"]
+
+inputs:
+  input_file: "Path to Python file to format"
+  output_file: "Path for formatted output file"
+  formatter: "Formatter to use: black, ruff, both (default: both)"
+  line_length: "Maximum line length (default: 88)"
+
+outputs:
+  output_file: "Path to the formatted file"
+  original_size: "Size of original file in bytes"
+  formatted_size: "Size of formatted file in bytes"
+  changes_made: "Whether any changes were made"
+  lint_issues: "Number of lint issues found"
+
+permissions:
+  fs_read: true
+  fs_write: true
+  network: false
+  env_var: false
+
+limits:
+  cpu_ms: 5000
+  ram_mb: 100
+  time_s: 30
+  disk_mb: 50

@@ -1,0 +1,31 @@
+name: sql_query
+version: "1.0.0"
+description: "Execute read-only SQL queries on databases"
+author: "PrometheusULTIMATE"
+license: "MIT"
+tags: ["sql", "database", "query", "readonly", "data"]
+
+inputs:
+  database_url: "Database connection URL (SQLite, PostgreSQL)"
+  query: "SQL query to execute (read-only)"
+  output_file: "Path to save query results"
+  output_format: "Output format: csv, json (default: csv)"
+
+outputs:
+  output_file: "Path to the results file"
+  rows_returned: "Number of rows returned"
+  columns_count: "Number of columns in result"
+  execution_time: "Query execution time in seconds"
+  database_type: "Type of database connected"
+
+permissions:
+  fs_read: true
+  fs_write: true
+  network: false
+  env_var: false
+
+limits:
+  cpu_ms: 15000
+  ram_mb: 200
+  time_s: 60
+  disk_mb: 100

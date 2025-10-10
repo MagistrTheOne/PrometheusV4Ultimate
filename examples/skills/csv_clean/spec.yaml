@@ -1,0 +1,33 @@
+name: csv_clean
+version: "1.0.0"
+description: "Clean and normalize CSV data: handle missing values, type conversion, duplicates"
+author: "PrometheusULTIMATE"
+license: "MIT"
+tags: ["csv", "data", "clean", "normalize", "preprocessing"]
+
+inputs:
+  input_file: "Path to input CSV file"
+  output_file: "Path for cleaned CSV file"
+  missing_strategy: "Strategy for missing values: drop, fill, keep (default: keep)"
+  fill_value: "Value to fill missing data (default: empty string)"
+  remove_duplicates: "Remove duplicate rows (default: false)"
+  type_conversion: "Convert data types: auto, none (default: auto)"
+
+outputs:
+  output_file: "Path to the cleaned CSV file"
+  rows_before: "Number of rows before cleaning"
+  rows_after: "Number of rows after cleaning"
+  columns_cleaned: "List of columns that were processed"
+  duplicates_removed: "Number of duplicate rows removed"
+
+permissions:
+  fs_read: true
+  fs_write: true
+  network: false
+  env_var: false
+
+limits:
+  cpu_ms: 3000
+  ram_mb: 150
+  time_s: 20
+  disk_mb: 50

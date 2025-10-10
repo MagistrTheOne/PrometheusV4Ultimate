@@ -1,0 +1,151 @@
+version: "3.9"
+
+services:
+  qdrant:
+    image: qdrant/qdrant:latest
+    ports:
+      - "6333:6333"
+    volumes:
+      - ./.promu/qdrant:/qdrant/storage
+    environment:
+      - QDRANT__SERVICE__HTTP_PORT=6333
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6333/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  gateway:
+    build: 
+      context: ..
+      dockerfile: apps/gateway/Dockerfile
+    ports:
+      - "8090:8090"
+    env_file: .env
+    depends_on:
+      - orchestrator
+    volumes:
+      - ./.promu:/app/.promu
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8090/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  orchestrator:
+    build:
+      context: ..
+      dockerfile: apps/orchestrator/Dockerfile
+    env_file: .env
+    depends_on:
+      - planner
+      - critic
+      - memory
+    volumes:
+      - ./.promu:/app/.promu
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  planner:
+    build:
+      context: ..
+      dockerfile: apps/planner/Dockerfile
+    env_file: .env
+    volumes:
+      - ./.promu:/app/.promu
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8001/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  critic:
+    build:
+      context: ..
+      dockerfile: apps/critic/Dockerfile
+    env_file: .env
+    volumes:
+      - ./.promu:/app/.promu
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8002/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  memory:
+    build:
+      context: ..
+      dockerfile: libs/memory/Dockerfile
+    env_file: .env
+    depends_on:
+      - qdrant
+    volumes:
+      - ./.promu:/app/.promu
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8003/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  skills:
+    build:
+      context: ..
+      dockerfile: libs/skills/Dockerfile
+    env_file: .env
+    volumes:
+      - ./.promu:/app/.promu
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8004/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  observability:
+    build:
+      context: ..
+      dockerfile: libs/observability/Dockerfile
+    env_file: .env
+    volumes:
+      - ./.promu:/app/.promu
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:8005/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  ui:
+    build:
+      context: ..
+      dockerfile: apps/ui/Dockerfile
+    ports:
+      - "8096:80"
+    env_file: .env
+    depends_on:
+      - gateway
+      - observability
+    volumes:
+      - ./.promu:/app/.promu
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  cli:
+    build:
+      context: ..
+      dockerfile: apps/cli/Dockerfile
+    env_file: .env
+    depends_on:
+      - gateway
+    volumes:
+      - ./.promu:/app/.promu
+    stdin_open: true
+    tty: true
+
+networks:
+  default:
+    name: prometheus-network

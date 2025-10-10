@@ -1,0 +1,33 @@
+name: email_draft
+version: "1.0.0"
+description: "Create email drafts with templates and formatting"
+author: "PrometheusULTIMATE"
+license: "MIT"
+tags: ["email", "draft", "template", "communication"]
+
+inputs:
+  to: "Recipient email address"
+  subject: "Email subject line"
+  body: "Email body content"
+  from_name: "Sender name (optional)"
+  template: "Email template: plain, html, markdown (default: plain)"
+  output_file: "Path to save email draft"
+
+outputs:
+  output_file: "Path to the email draft file"
+  email_size: "Size of email draft in bytes"
+  recipient_count: "Number of recipients"
+  has_attachments: "Whether email has attachments"
+  template_used: "Template type used"
+
+permissions:
+  fs_read: true
+  fs_write: true
+  network: false
+  env_var: false
+
+limits:
+  cpu_ms: 2000
+  ram_mb: 50
+  time_s: 10
+  disk_mb: 10

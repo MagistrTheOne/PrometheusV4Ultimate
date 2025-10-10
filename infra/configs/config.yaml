@@ -1,0 +1,76 @@
+orchestrator:
+  max_concurrent_tasks: 8
+  task_timeout_s: 300
+  retry_policy:
+    max_retries: 2
+    backoff: linear
+
+planner:
+  cost_weight: 0.5
+  quality_weight: 0.5
+  time_weight: 0.3
+  retry_policy:
+    max_retries: 2
+    backoff: linear
+
+critic:
+  fact_check: simple
+  code_check: run_tests
+  policy_check: strict
+  auto_fix: true
+
+memory:
+  vector:
+    top_k: 8
+    reindex_ttl_h: 12
+    collection_prefix: "promu_"
+  kv:
+    connection_pool_size: 10
+    query_timeout_s: 30
+  project_store:
+    versioning: true
+    max_versions: 10
+
+skills:
+  sandbox:
+    cpu_ms: 800
+    ram_mb: 512
+    net: off
+    timeout_s: 30
+  registry:
+    auto_reload: true
+    validation: strict
+
+observability:
+  tracing: true
+  cost_accounting: true
+  metrics_retention_days: 30
+  log_level: INFO
+
+security:
+  pii_redaction: basic
+  allow_external_providers: false
+  sandbox_strict: true
+
+routing:
+  policy: auto
+  rules:
+    - when:
+        task: "offline|min_cpu"
+        ctx_le: 4096
+      prefer: ["radon/small-0.1b", "radon/base-0.8b"]
+    - when:
+        task: "chat|tools|rag"
+        quality: "mvp"
+        budget: "low"
+      prefer: ["radon/balanced-3b", "radon/efficient-3b"]
+    - when:
+        task: "code|analysis|long_chain"
+        quality: "high"
+      prefer: ["radon/ultra-13b"]
+    - when:
+        task: "heavy|showcase"
+        reviewers: true
+      prefer: ["radon/mega-70b"]
+  fallback: ["radon/base-0.8b", "radon/small-0.1b"]
+  disallow_external: true

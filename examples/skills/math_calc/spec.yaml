@@ -1,0 +1,30 @@
+name: math_calc
+version: "1.0.0"
+description: "Perform mathematical calculations with high precision"
+author: "PrometheusULTIMATE"
+license: "MIT"
+tags: ["math", "calculation", "precision", "arithmetic"]
+
+inputs:
+  expression: "Mathematical expression to evaluate"
+  precision: "Decimal precision for calculations (default: 10)"
+  output_file: "Path to save calculation results"
+
+outputs:
+  output_file: "Path to the results file"
+  result: "Calculated result"
+  expression: "Original expression"
+  precision: "Used precision"
+  error: "Error message if calculation failed"
+
+permissions:
+  fs_read: true
+  fs_write: true
+  network: false
+  env_var: false
+
+limits:
+  cpu_ms: 2000
+  ram_mb: 50
+  time_s: 10
+  disk_mb: 10

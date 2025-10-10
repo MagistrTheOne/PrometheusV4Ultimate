@@ -1,0 +1,31 @@
+name: file_zip
+version: "1.0.0"
+description: "Create ZIP archives from files and directories"
+author: "PrometheusULTIMATE"
+license: "MIT"
+tags: ["zip", "archive", "compression", "files"]
+
+inputs:
+  input_paths: "JSON array of file/directory paths to zip"
+  output_file: "Path for the output ZIP file"
+  compression_level: "Compression level 0-9 (default: 6)"
+  include_hidden: "Include hidden files (default: false)"
+
+outputs:
+  output_file: "Path to the created ZIP file"
+  files_count: "Number of files added to archive"
+  total_size: "Total size of files before compression"
+  compressed_size: "Size of the ZIP file"
+  compression_ratio: "Compression ratio (0-1)"
+
+permissions:
+  fs_read: true
+  fs_write: true
+  network: false
+  env_var: false
+
+limits:
+  cpu_ms: 15000
+  ram_mb: 200
+  time_s: 120
+  disk_mb: 500

@@ -1,0 +1,33 @@
+name: http_fetch
+version: "1.0.0"
+description: "Fetch data from HTTP endpoints with allowlist domain restrictions"
+author: "PrometheusULTIMATE"
+license: "MIT"
+tags: ["http", "fetch", "api", "network", "data"]
+
+inputs:
+  url: "HTTP URL to fetch data from"
+  method: "HTTP method: GET, POST (default: GET)"
+  headers: "JSON string of HTTP headers (optional)"
+  data: "Request body data for POST requests (optional)"
+  output_file: "Path to save response data"
+  format: "Response format: json, text, binary (default: auto-detect)"
+
+outputs:
+  output_file: "Path to the saved response file"
+  status_code: "HTTP status code"
+  content_type: "Response content type"
+  size_bytes: "Size of response in bytes"
+  headers: "Response headers as JSON"
+
+permissions:
+  fs_read: true
+  fs_write: true
+  network: true
+  env_var: false
+
+limits:
+  cpu_ms: 10000
+  ram_mb: 100
+  time_s: 60
+  disk_mb: 100

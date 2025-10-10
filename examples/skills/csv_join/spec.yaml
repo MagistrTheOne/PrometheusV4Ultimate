@@ -1,0 +1,31 @@
+name: csv_join
+version: "1.0.0"
+description: "Join two CSV files by a common key column"
+author: "PrometheusULTIMATE"
+license: "MIT"
+tags: ["csv", "data", "join", "merge"]
+
+inputs:
+  left_file: "Path to left CSV file"
+  right_file: "Path to right CSV file"
+  left_key: "Key column name in left CSV"
+  right_key: "Key column name in right CSV"
+  join_type: "Type of join: inner, left, right, outer (default: inner)"
+  output_file: "Path for output CSV file"
+
+outputs:
+  output_file: "Path to the created joined CSV file"
+  rows_count: "Number of rows in the output"
+  columns_count: "Number of columns in the output"
+
+permissions:
+  fs_read: true
+  fs_write: true
+  network: false
+  env_var: false
+
+limits:
+  cpu_ms: 5000
+  ram_mb: 200
+  time_s: 30
+  disk_mb: 100
